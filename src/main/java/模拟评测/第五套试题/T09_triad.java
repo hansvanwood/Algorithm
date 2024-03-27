@@ -12,7 +12,29 @@ package 模拟评测.第五套试题;
  * @date : 2024-03-23 10:58
  */
 public class T09_triad {
-	public static void main(String[] args) {
+//	typedef long long LL;
+//	const int maxN = 100005;
+//
+//	int N, a[maxN];
+//
+//	public static void main(String[] args) {
+//		scanf("%d", &N);
+//		for (int i = 1; i <= N; ++ i) scanf("%d", a+i);
+//
+//		sort(a+1, a+N+1);
+//
+//		int low = 1;
+//
+//		long ans = 0;
+//		while (true) {
+//			int high = low;
+//			while (high+1 <= N && a[high + 1] == a[low]) ++ high;
+//			ans = ans + LL(high - low + 1) * (low - 1) * (N - high);
+//			low = high + 1;
+//			if (low > N) break;
+//		}
+//
+//		System.out.println("%lld", ans);
+//	}
 
-	}
 }

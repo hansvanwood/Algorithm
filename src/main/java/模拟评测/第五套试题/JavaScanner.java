@@ -8,5 +8,8 @@ package 模拟评测.第五套试题;
  */
 public class JavaScanner {
 
+    public static void main(String[] args) {
+
+    }
 
 }

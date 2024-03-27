@@ -22,11 +22,35 @@ package 模拟评测.第五套试题;
  */
 public class T04_number {
 
-	public static void main(String[] args) {
-		//要注意规避第二位数为0的可能，第二个数为0，但是又不能一次性直接删两位数
-		//4087 (删一位)->087(答案错误)
+    public static void main(String[] args) {
+        //要注意规避第二位数为0的可能，第二个数为0，但是又不能一次性直接删两位数
+        //4087 (删一位)->087(答案错误)
+        String st = "54971263591276349213";
+        int k = 10;
+        while (k != 0) {
 
+            int target = -1;
+            // 找第一个山峰
+            for (int i = 0; i + 1 < st.length(); ++i) {
+                if (st.charAt(i + 1) < st.charAt(i)) {
+                    target = i;
+                    break;
+                }
+            }
+            if (target == -1)
+                target = st.length() - 1;
+            st = st.substring(0, target) + st.substring(target + 1, st.length());
 
+            k--;
+        }
 
-	}
+        if (st.charAt(0) == '0' && st.length() > 1) {
+            int kk = 0;
+            while (kk < st.length() && st.charAt(kk) == '0') kk++;
+            if (kk == st.length()) kk--;
+            st = st.substring(kk, st.length() - kk);
+        }
+        System.out.println(st);
+
+    }
 }
