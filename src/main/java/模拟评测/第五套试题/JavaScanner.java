@@ -28,6 +28,7 @@ public class JavaScanner {
 			System.out.println(String.format("input:(%s)", next));
 		}
 
+//		scanner.next() ~= scanner.nextInt()
 
 	}
 	/**
