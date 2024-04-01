@@ -1,9 +1,8 @@
 package 日常刷题;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Stack;
+import com.sun.xml.internal.ws.util.StringUtils;
+
+import java.util.*;
 
 /**
  * 请填写说明
@@ -13,33 +12,58 @@ import java.util.Stack;
  */
 public class DFS_IP地址 {
 
-	public static void dfs(String str, int index, int level, Stack<String> result) {
-		//1.截止条件
-		if (level == 5 || index == str.length() - 1) {
-			if (level == 5 && index == str.length() - 1) {
-				System.out.println(result.stream().reduce((a, b) -> a.concat(".").concat(b)).get());
-			}
-			return;
-		}
+    public static void dfs(String str, int index, int level, Stack<String> result) {
+        //1.截止条件（有两种可能）
+        //第一种：已确定ip地址中前四层的数字，现在进入到第5层
+        //第二种：当前索引index已经走到str末尾，没有元素可以使用了
+        //凡是满足上述情况之一的，递归必须停止（在递归下去没有意义）
+        if (level == 5 || index == str.length() - 1) {
+            //但是这里要同时满足上述两个条件，这个ip地址才是满足题目要求的，才可以被打印出来
+            if (level == 5 && index == str.length() - 1) {
+                System.out.println(result.stream().reduce((a, b) -> a.concat(".").concat(b)).get());
+            }
+            return;
+        }
 
-		//2.候选地址
-		for (int i = 1; i < 4; i++) {
-			String x = str.substring(index + 1,i);
+        //2.候选地址
+        //ip地址一共有四组，如192.168.0.1，我们每次从str中取的时候，
+        //既可以取1位，也可以取2位，最多取3位
+        for (int i = 1; i < 4; i++) {
+            //每次取出来的数
+            String x = "";
+            if (index + 1 + i > str.length()) {
+                if (index + 1 > str.length()) break;
+                x = str.substring(index + 1);
+            } else {
+                x = str.substring(index + 1, index + i + 1);
+            }
 
-			//2.1 筛选
-			if (Integer.parseInt(x) < 256) {
-				if ("0".equals(x) || !x.startsWith("0")) {
-					result.push(x);
-					dfs(str, index + 1, level + 1, result);
-					result.pop();
-				}
-			}
-		}
-	}
 
-	public static void main(String[] args) {
-		Stack<String> result = new Stack<>();
-		dfs("19216801", -1, 1, result);
+            //2.1 筛选（判断这个数是否合法）
+            //（1）这个数必须小于256
+            //（2）这个数的长度>=2位时，不能以0开头
+            //（3）这个数可以是单个数0
+            if (Integer.parseInt(x) < 256) {
+                if ("0".equals(x) || !x.startsWith("0")) {
+                    //将取出的数放入结果
+                    result.push(x);
+                    dfs(str, index + i, level + 1, result);//确定x可用的情况下，继续递归搜索下一个数
 
-	}
+                    //上一行代码递归完成，取出元素，继续搜索下一种可能
+                    result.pop();
+                }
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        List<String> list = Arrays.asList("19216801", "1010101", "172160100", "8844", "123456789", "203011325", "1985110099", "172312551", "1006401", "192021", "16925401", "11223344", "55667788", "99887766", "203011350", "19851100120", "17231255255", "100100100100", "1921681100", "1000100", "17216101", "8888", "123123123123", "203011375", "19851100150", "1723101", "100100100200", "19216821", "10111", "17216201", "8844", "123456789", "2030113100", "19851100180", "1723111", "100100100300 (Invalid IP)", "19216831", "10222", "17216301", "8888", "123456789", "2030113125", "19851100200", "1723121", "100100100255", "19216841", "10333", "17216401", "8844", "123456789", "2030113150", "19851100220", "1723131", "100100100100", "19216851", "10444", "17216501", "8888", "123456789", "2030113175", "19851100240", "1723141", "100100100200", "19216861", "10555", "17216601", "8844", "123456789", "2030113200", "1985110010", "1723151", "100100100150", "19216871", "10666", "17216701", "8888", "123456789", "2030113225", "1985110030", "1723161", "100100100175", "19216881", "10777", "17216801", "8844", "123456789", "2030113250", "1985110050", "1723171", "100100100125", "19216891", "10888", "17216901", "8888", "123456789", "203011315", "1985110070", "1723181", "100100100250", "192168101");
+        for (int i = 0; i < list.size(); i++) {
+            System.out.println(String.format("对于%s来说，合法的ip地址有下列情况：", list.get(i)));
+            Stack<String> result = new Stack<>();
+            dfs(list.get(i), -1, 1, result);
+        }
+
+
+    }
 }
