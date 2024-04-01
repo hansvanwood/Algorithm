@@ -8,7 +8,7 @@ import java.util.Scanner;
  * @author : bugu
  * @date : 2024-03-23 11:02
  */
-public class T11_count {
+public class T10_count {
 
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in);
